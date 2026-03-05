@@ -17,7 +17,7 @@ const gallery = await getCollection("gallery");
 			</p>
 		</Heading>
 	</Section>
-	<div class="masonry-grid grid grid-cols-2 lg:grid-cols-3 pb-16 lg:pb-32">
+	<div class="masonry-grid grid grid-cols-2 lg:grid-cols-3">
 		{
 			gallery.map((item, index) => (
 				<div class="masonry-grid-item">
@@ -28,6 +28,8 @@ const gallery = await getCollection("gallery");
 							class="h-full w-full object-cover object-center"
 							loading={index < 3 ? "eager" : "lazy"}
                             fetchpriority={index < 3 ? "high" : "auto"}
+							width={675}
+							height={532}
 						/>
 					</a>
 				</div>
