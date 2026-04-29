@@ -1,0 +1,143 @@
+---
+import Layout from "~/layouts/Layout.astro";
+import Section from "~/components/Section.astro";
+import Hero from "~/components/Hero.astro";
+import { Picture, Image } from "astro:assets";
+import Badge from "~/components/Badge.astro";
+import Button from "~/components/Button.astro";
+import ButtonCallUs from "~/components/ButtonCallUs.astro";
+import Grid from "~/components/Grid.astro";
+import Heading from "~/components/Heading.astro";
+import WideImage from "~/components/WideImage.astro";
+import ReviewSlider from "~/components/ReviewSlider.astro";
+import { getLangFromUrl } from "astro:i18n";
+import { translations } from "~/i18n/translations";
+
+const lang = getLangFromUrl(Astro.url);
+const t = translations[lang];
+
+// Images
+import PizzaHero from "~/assets/images/pizza-hero.png";
+import Pizza from "~/assets/images/pizza.png";
+import Spaghetti from "~/assets/images/spaghetti.png";
+import Fish from "~/assets/images/fish.png";
+import DecorativeImage from "~/assets/images/pexels-shvetsa-5953523.jpg";
+import reviewAuthors from "~/assets/images/review-authors.png";
+import Dessert from "~/assets/images/dessert.png";
+import Mussels from "~/assets/images/mussels2.png";
+---
+
+<Layout title={t.nav.home} pageTitle={t.nav.home} description={t.siteSlogan}>
+	<Section class:list={"bg-white"}>
+		<Hero>
+			<div slot="hero-content-left" class="prose max-w-none max-lg:order-1">
+				<Badge title={lang === 'hr' ? 'Roštilj' : 'Grill'} />
+				<h1 class="font-black">{t.siteSlogan}</h1>
+
+				<p>
+					{lang === 'hr' 
+						? 'Iskusite najbolji roštilj u gradu! Naša jela pripremljena su od najkvalitetnijih sastojaka, svježa i ukusna. Bilo da jedete u restoranu ili nosite sa sobom, obećavamo nezaboravno kulinarstvo iskustvo.'
+						: 'Experience the best grill in town! Our dishes are made from the finest ingredients, fresh and delicious. Whether dining in or taking out, we promise a memorable culinary experience.'}
+				</p>
+
+				<span class="text-brand-green font-medium">✔ {lang === 'hr' ? 'Dostupna dostava' : 'We also deliver'}</span>
+
+				<div class="mt-8 flex items-center gap-x-8">
+					<Button url={`/${lang === 'en' ? 'en/' : ''}book`}>{t.common.bookNow}</Button>
+					<ButtonCallUs />
+				</div>
+			</div>
+			<div slot="hero-content-right">
+				<Picture
+					class:list={"mx-auto"}
+					src={PizzaHero}
+					height={600}
+					formats={["avif", "webp"]}
+					alt={lang === 'hr' ? 'Dvije Žarulje' : 'Dvije Žarulje'}
+				/>
+			</div>
+		</Hero>
+	</Section>
+
+	<Section class:list={"bg-gray-50"}>
+		<div class="text-center mb-12">
+			<Heading level={2}>{lang === 'hr' ? 'Naša jela' : 'Our Dishes'}</Heading>
+			<p class="mt-4 text-lg text-gray-600">
+				{lang === 'hr' 
+					? 'Od tradicionalnih ćevapa do ukusnih burgera'
+					: 'From traditional cevapi to delicious burgers'}
+			</p>
+		</div>
+		<Grid>
+			<div class="text-center">
+				<Picture
+					src={Pizza}
+					width={300}
+					height={300}
+					formats={["avif", "webp"]}
+					alt="Cevapi"
+					class="rounded-2xl mb-4"
+				/>
+				<Heading level={3}>{t.menuCategories.cevapi}</Heading>
+				<p class="text-gray-600">{lang === 'hr' ? 'Tradicionalni bosanski ćevapi' : 'Traditional Bosnian cevapi'}</p>
+			</div>
+			<div class="text-center">
+				<Picture
+					src={Spaghetti}
+					width={300}
+					height={300}
+					formats={["avif", "webp"]}
+					alt="Burgers"
+					class="rounded-2xl mb-4"
+				/>
+				<Heading level={3}>{t.menuCategories.burgers}</Heading>
+				<p class="text-gray-600">{lang === 'hr' ? 'Domaci burgersi po receptu' : 'Homemade burgers by recipe'}</p>
+			</div>
+			<div class="text-center">
+				<Picture
+					src={Fish}
+					width={300}
+					height={300}
+					formats={["avif", "webp"]}
+					alt="Grill"
+					class="rounded-2xl mb-4"
+				/>
+				<Heading level={3}>{t.menuCategories.rostilj}</Heading>
+				<p class="text-gray-600">{lang === 'hr' ? 'Jela s roštilja' : 'Dishes from the grill'}</p>
+			</div>
+		</Grid>
+		<div class="text-center mt-12">
+			<Button url={`/${lang === 'en' ? 'en/' : ''}menu`}>{t.common.viewAll} {t.nav.menu}</Button>
+		</div>
+	</Section>
+
+	<Section class:list={"bg-white"}>
+		<WideImage>
+			<Picture
+				src={DecorativeImage}
+				formats={["avif", "webp"]}
+				alt={lang === 'hr' ? 'Restoran' : 'Restaurant'}
+				class="w-full h-96 object-cover"
+			/>
+			<div slot="caption" class="text-center">
+				<Heading level={2}>{lang === 'hr' ? 'Posjetite nas' : 'Visit Us'}</Heading>
+				<p class="mt-4 text-lg text-gray-600 max-w-2xl mx-auto">
+					{lang === 'hr'
+						? 'Nalazimo se u Ulici Brune Bušića 28, Zagreb. Radimo svaki dan od 8:00 do 19:00.'
+						: 'We are located at Ul. Brune Bušića 28, Zagreb. We are open every day from 8:00 to 19:00.'}
+				</p>
+				<div class="mt-8 flex items-center justify-center gap-x-8">
+					<Button url={`/${lang === 'en' ? 'en/' : ''}contact`}>{t.nav.contact}</Button>
+					<Button url={`/${lang === 'en' ? 'en/' : ''}book`}>{t.common.bookNow}</Button>
+				</div>
+			</div>
+		</WideImage>
+	</Section>
+
+	<Section class:list={"bg-gray-50"}>
+		<div class="text-center mb-12">
+			<Heading level={2}>{lang === 'hr' ? 'Recenzije gostiju' : 'Guest Reviews'}</Heading>
+		</div>
+		<ReviewSlider />
+	</Section>
+</Layout>

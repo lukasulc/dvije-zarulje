@@ -1,5 +1,9 @@
 ---
-import { menuMain } from "~/data/menus.js";
+import { getLangFromUrl } from "astro:i18n";
+import { translations } from "~/i18n/translations";
+
+const lang = getLangFromUrl(Astro.url);
+const t = translations[lang] || translations.hr;
 
 const rmTrailingSlash = (path: string): string => {
   return path.endsWith("/") && path.length > 1 
@@ -8,13 +12,23 @@ const rmTrailingSlash = (path: string): string => {
 }
 
 const pathname = rmTrailingSlash(Astro.url.pathname);
+
+// Build menu items with translations
+const menuItems = [
+  { name: t.nav.home, url: `/${lang === 'en' ? 'en' : ''}` },
+  { name: t.nav.menu, url: `/${lang === 'en' ? 'en' : ''}menu` },
+  { name: t.nav.aboutUs, url: `/${lang === 'en' ? 'en' : ''}about-us` },
+  { name: t.nav.gallery, url: `/${lang === 'en' ? 'en' : ''}gallery` },
+  { name: t.nav.contact, url: `/${lang === 'en' ? 'en' : ''}contact` },
+  { name: t.nav.book, url: `/${lang === 'en' ? 'en' : ''}book`, highlighted: true },
+];
 ---
 
 <header x-data="{ open: false }" @keydown.window.escape="open = false">
 	<div class="container py-6">
 		<nav class="flex items-center justify-between" aria-label="Global">
-			<a href="/" class="-m-1.5 p-1.5">
-				<p class="font-bold text-4xl text-brand-green">Astro<span class="text-brand-red bg-brand-red/5 px-3 ml-1 rounded-lg">Pie</span></p>
+			<a href={`/${lang === 'en' ? 'en' : ''}`} class="-m-1.5 p-1.5">
+				<p class="font-bold text-4xl text-brand-green">Dvije<span class="text-brand-red">Žarulje</span></p>
 			</a>
 			<div class="flex lg:hidden">
 				<button
@@ -41,7 +55,7 @@ const pathname = rmTrailingSlash(Astro.url.pathname);
 			</div>
 			<div class="hidden lg:flex lg:gap-x-12 lg:items-center">
 				{
-					menuMain.map((item) => (
+					menuItems.map((item) => (
 						<a
 							href={item.url}
 							class={`transition text-base/6 font-semibold hover:text-brand-green ${item.highlighted ? "menu-item-highlighted" : ""} ${pathname === item.url ? "menu-item-active" : ""}`}
@@ -65,8 +79,8 @@ const pathname = rmTrailingSlash(Astro.url.pathname);
 				x-cloak
 			>
 				<div class="flex items-center justify-between">
-					<a href="/" class="-m-1.5 p-1.5">
-						<p class="font-bold text-4xl text-brand-green">Astro<span class="text-brand-red">Pie</span></p>
+					<a href={`/${lang === 'en' ? 'en' : ''}`} class="-m-1.5 p-1.5">
+						<p class="font-bold text-4xl text-brand-green">Dvije<span class="text-brand-red">Žarulje</span></p>
 					</a>
 					<button type="button" class="-m-2.5 p-2.5 text-brand-red" @click="open = false">
 						<span class="sr-only">Close menu</span>
@@ -87,7 +101,7 @@ const pathname = rmTrailingSlash(Astro.url.pathname);
 					<div class="-my-6 divide-y divide-gray-500/10">
 						<div class="space-y-2 py-6 mt-16">
 							{
-								menuMain.map((item) => (
+								menuItems.map((item) => (
 									<a
 										@click="open = false"
 										href={item.url}

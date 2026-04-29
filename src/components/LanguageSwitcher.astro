@@ -1,0 +1,32 @@
+---
+import { getLangFromUrl, useTranslations } from "astro:i18n";
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(Astro.url, (key) => key);
+---
+
+<div class="flex items-center gap-2">
+	<a
+		href={Astro.url.pathname.replace(`/${lang}`, "") || "/"}
+		class:list={[
+			"text-sm font-medium px-2 py-1 rounded transition",
+			lang === "hr"
+				? "bg-brand-green text-white"
+				: "text-gray-600 hover:text-brand-green",
+		]}
+	>
+		HR
+	</a>
+	<span class="text-gray-300">|</span>
+	<a
+		href={`/en${Astro.url.pathname.replace(`/${lang}`, "") || "/"}`}
+		class:list={[
+			"text-sm font-medium px-2 py-1 rounded transition",
+			lang === "en"
+				? "bg-brand-green text-white"
+				: "text-gray-600 hover:text-brand-green",
+		]}
+	>
+		EN
+	</a>
+</div>
